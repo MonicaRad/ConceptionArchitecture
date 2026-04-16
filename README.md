@@ -8,38 +8,21 @@
 
 ---
 
-## ✨ Fonctionnalités Clés
+## Fonctionnalités clés
 
 Notre application offre un écosystème complet pour la gestion de la santé :
 
-- 🤖 **Intelligence Artificielle & Prédiction** : Analyse des historiques pour détecter les tendances et repérer les problèmes plus rapidement.
-- 🚨 **Alertes en Temps Réel** : Notifications push immédiates lorsqu'une constante vitale semble anormale.
-- 📊 **Tableaux de Bord Personnalisés** : Interfaces dédiées et adaptées aux besoins des médecins et des patients.
-- 🔒 **Confidentialité Maximale** : Stockage sécurisé des données de santé et messagerie chiffrée.
-- 📄 **Génération de Rapports** : Exportation des historiques et des diagnostics au format PDF.
+- **Intelligence Artificielle & Prédiction** : Analyse des historiques pour détecter les tendances et repérer les problèmes plus rapidement.
+- **Alertes en Temps Réel** : Notifications push immédiates lorsqu'une constante vitale semble anormale.
+- **Tableaux de Bord Personnalisés** : Interfaces dédiées et adaptées aux besoins des médecins et des patients.
+- **Confidentialité Maximale** : Stockage sécurisé des données de santé et messagerie chiffrée.
+- **Génération de Rapports** : Exportation des historiques et des diagnostics au format PDF.
 
 ---
 
-## 🏗️ Architecture des Modules
+## Architecture des modules
 
 L'application est découpée en micro-services / modules logiques pour assurer sa scalabilité et sa maintenabilité. 
-
-
-
-Voici la liste de fonctionnalités de notre application : 
-
-
-- Création / modification de comptes 
-- Authentification admin/user
-- Saisie manuelle de données de santé
-- Système de filtrage par maladie
-- Stockage sécurisé des données patient
-- Analyse prédictive des historiques
-- Alertes push en cas d'anomalie
-- Tableau de bord médecin
-- Tableau de bord patient
-- Messagerie sécurisée
-- Export PDF des rapports médicaux
 
 Les fonctionnalités sont ensuite regroupées par domaine : 
 
@@ -53,7 +36,6 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 | Notification | Alertes push en cas d'anomalie |
 
 
-
 ```mermaid
 graph TD
     %% --- Styles personnalisés pour le schéma ---
@@ -63,17 +45,17 @@ graph TD
     classDef alert fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d,font-weight:bold;
 
     %% --- Acteurs (Utilisateurs) ---
-    Patient(("👤 Patient")):::actor
-    Medecin(("👨‍⚕️ Médecin")):::actor
+    Patient(("Patient")):::actor
+    Medecin(("Médecin")):::actor
 
     %% --- Modules Système ---
-    Auth["🔐 Auth & Profils<br/>(Module User)"]:::module
-    Saisie["📝 Saisie & Filtrage<br/>(Module HealthRecord)"]:::module
-    DB[("🗄️ Stockage Patient Sécurisé")]:::storage
-    IA["🧠 Analyse Prédictive<br/>(Module Analytics)"]:::module
-    Dash["📊 Tableaux de bord & PDF<br/>(Module Dashboard)"]:::module
-    Msg["💬 Messagerie Sécurisée<br/>(Module Messaging)"]:::module
-    Notif["🔔 Alertes Push<br/>(Module Notification)"]:::alert
+    Auth["Auth & Profils<br/>(Module User)"]:::module
+    Saisie["Saisie & Filtrage<br/>(Module HealthRecord)"]:::module
+    DB[("Stockage Patient Sécurisé")]:::storage
+    IA["Analyse Prédictive<br/>(Module Analytics)"]:::module
+    Dash["Tableaux de bord & PDF<br/>(Module Dashboard)"]:::module
+    Msg["Messagerie Sécurisée<br/>(Module Messaging)"]:::module
+    Notif["Alertes Push<br/>(Module Notification)"]:::alert
 
     %% --- Actions du Patient ---
     Patient -->|"1. Se connecte"| Auth
