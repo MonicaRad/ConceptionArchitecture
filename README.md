@@ -54,7 +54,7 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 
 
 
-"```mermaid
+```mermaid
 graph TD
     %% --- Styles personnalisés pour le schéma ---
     classDef actor fill:#f3f4f6,stroke:#374151,stroke-width:2px,color:#111827;
@@ -67,7 +67,6 @@ graph TD
     Medecin(("👨‍⚕️ Médecin")):::actor
 
     %% --- Modules Système ---
-    %% L'ajout des guillemets protège les caractères spéciaux et le HTML
     Auth["🔐 Auth & Profils<br/>(Module User)"]:::module
     Saisie["📝 Saisie & Filtrage<br/>(Module HealthRecord)"]:::module
     DB[("🗄️ Stockage Patient Sécurisé")]:::storage
@@ -94,8 +93,4 @@ graph TD
     Notif -.->|"Alerte d'urgence"| Medecin
     Medecin -->|"Supervise l'évolution"| Dash
     Medecin <-->|"Conseille le patient"| Msg
-    "
-    Medecin <-->|Conseille le patient| Msg
-    Medecin -->|Supervise l'évolution| Dash
-    Medecin <-->|Conseille et rassure| Msg
  
