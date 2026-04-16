@@ -52,71 +52,49 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 | Messaging | Messagerie sécurisée |
 | Notification | Alertes push en cas d'anomalie |
 
-```mermaid
+
+
+"```mermaid
 graph TD
-    %% --- Styles personnalisés pour rendre le schéma plus esthétique sur GitHub ---
-    
-    %% Définit les styles pour les acteurs (Utilisateurs)
+    %% --- Styles personnalisés pour le schéma ---
     classDef actor fill:#f3f4f6,stroke:#374151,stroke-width:2px,color:#111827;
-    
-    %% Définit les styles pour les modules du système
     classDef module fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e;
-    
-    %% Définit les styles pour le stockage des données
     classDef storage fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d;
-    
-    %% Définit les styles pour les alertes (police grasse)
     classDef alert fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d,font-weight:bold;
 
     %% --- Acteurs (Utilisateurs) ---
-    Patient((👤 Patient)):::actor
-    Medecin((👨‍⚕️ Médecin)):::actor
+    Patient(("👤 Patient")):::actor
+    Medecin(("👨‍⚕️ Médecin")):::actor
 
     %% --- Modules Système ---
-    Auth[🔐 Auth & Profils<br/>(Module User)]:::module
-    Saisie[[📝 Saisie & Filtrage<br/>(Module HealthRecord)]]: : module
-    DB[(🗄️ Stockage Patient Sécurisé)]:::storage
-    IA[🧠 Analyse Prédictive<br/>(Module Analytics)]:::module
-    Dash[📊 Tableaux de bord & PDF<br/>(Module Dashboard)]:::module
-    Msg[💬 Messagerie Sécurisée<br/>(Module Messaging)]:::module
-    Notif[🔔 Alertes Push<br/>(Module Notification)]:::alert
+    %% L'ajout des guillemets protège les caractères spéciaux et le HTML
+    Auth["🔐 Auth & Profils<br/>(Module User)"]:::module
+    Saisie["📝 Saisie & Filtrage<br/>(Module HealthRecord)"]:::module
+    DB[("🗄️ Stockage Patient Sécurisé")]:::storage
+    IA["🧠 Analyse Prédictive<br/>(Module Analytics)"]:::module
+    Dash["📊 Tableaux de bord & PDF<br/>(Module Dashboard)"]:::module
+    Msg["💬 Messagerie Sécurisée<br/>(Module Messaging)"]:::module
+    Notif["🔔 Alertes Push<br/>(Module Notification)"]:::alert
 
     %% --- Actions du Patient ---
-    %% 1. Connexion initiale
-    Patient -->|1. Se connecte| Auth
-    
-    %% 2. Saisie des données de santé
-    Patient -->|2. Renseigne ses constantes| Saisie
-    
-    %% Autres actions
-    Patient -->|Consulte son suivi| Dash
-    Patient <-->|Discute de son état| Msg
+    Patient -->|"1. Se connecte"| Auth
+    Patient -->|"2. Renseigne ses constantes"| Saisie
+    Patient -->|"Consulte son suivi"| Dash
+    Patient <-->|"Discute de son état"| Msg
 
     %% --- Traitement des données en arrière-plan ---
-    %% Sauvegarde sécurisée des données saisies
-    Saisie -->|Sauvegarde chiffrée| DB
-    
-    %% L'IA utilise l'historique pour l'analyse
-    DB -->|Fournit l'historique| IA
-    
-    %% L'IA déclenche une alerte si une anomalie est détectée
-    IA -->|Détecte une anomalie| Notif
-    
-    %% Alimentation des tableaux de bord par les données et les prédictions
-    DB -->|Alimente les graphiques| Dash
-    IA -->|Ajoute les prédictions| Dash
+    Saisie -->|"Sauvegarde chiffrée"| DB
+    DB -->|"Fournit l'historique"| IA
+    IA -->|"Détecte une anomalie"| Notif
+    DB -->|"Alimente les graphiques"| Dash
+    IA -->|"Ajoute les prédictions"| Dash
 
     %% --- Actions du Médecin ---
-    %% 1. Connexion initiale
-    Medecin -->|1. Se connecte| Auth
-    
-    %% Reçoit des alertes immédiates en cas de danger
-    Notif -.->|Alerte d'urgence| Medecin
-    
-    %% Consulte le tableau de bord
-    Medecin -->|Supervise l'évolution| Dash
-    
-    %% Communique avec le patient
+    Medecin -->|"1. Se connecte"| Auth
+    Notif -.->|"Alerte d'urgence"| Medecin
+    Medecin -->|"Supervise l'évolution"| Dash
+    Medecin <-->|"Conseille le patient"| Msg
+    "
     Medecin <-->|Conseille le patient| Msg
     Medecin -->|Supervise l'évolution| Dash
     Medecin <-->|Conseille et rassure| Msg
