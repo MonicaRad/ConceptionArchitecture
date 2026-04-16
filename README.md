@@ -10,13 +10,19 @@
 
 ## Fonctionnalités clés
 
-Notre application offre un écosystème complet pour la gestion de la santé :
+Notre application simplifie le suivi médical grâce aux outils suivants :
 
-- **Intelligence Artificielle & Prédiction** : Analyse des historiques pour détecter les tendances et repérer les problèmes plus rapidement.
-- **Alertes en Temps Réel** : Notifications push immédiates lorsqu'une constante vitale semble anormale.
-- **Tableaux de Bord Personnalisés** : Interfaces dédiées et adaptées aux besoins des médecins et des patients.
-- **Confidentialité Maximale** : Stockage sécurisé des données de santé et messagerie chiffrée.
-- **Génération de Rapports** : Exportation des historiques et des diagnostics au format PDF.
+* **Gestion des comptes** : Création et modification facile des profils.
+* **Connexion sécurisée** : Accès séparés et sécurisés pour les médecins et les patients.
+* **Suivi de santé** : Renseignement manuel et régulier des constantes médicales par le patient.
+* **Filtrage intelligent** : Tri rapide des dossiers et des données selon les maladies.
+* **Données protégées** : Stockage privé et hautement sécurisé de toutes les informations médicales.
+* **Analyse par IA** : Le système étudie l'historique pour repérer et prévoir les problèmes de santé.
+* **Alertes en temps réel** : Notifications directes (Push) dès qu'une donnée médicale est anormale.
+* **Espace Médecin** : Un écran dédié pour surveiller facilement tous ses patients.
+* **Espace Patient** : Un écran personnel pour suivre sa propre santé au quotidien.
+* **Messagerie privée** : Discussion directe et confidentielle entre le patient et son médecin.
+* **Rapports PDF** : Exportation et impression des historiques médicaux en un clic.
 
 ---
 
@@ -35,64 +41,75 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 | Messaging | Messagerie sécurisée |
 | Notification | Alertes push en cas d'anomalie |
 
+---
 
-graph TD
+graph LR
     %% --- Styles ---
     classDef actor fill:#f3f4f6,stroke:#374151,stroke-width:2px,color:#111827;
     classDef module fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e;
     classDef storage fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d;
     classDef alert fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d,font-weight:bold;
+    classDef device fill:#fef08a,stroke:#ca8a04,stroke-width:2px,color:#713f12;
 
-    %% --- Acteurs en haut ---
-    Patient(("👤 Patient")):::actor
-    Medecin(("👨‍⚕️ Médecin")):::actor
+    %% --- 1. Origine (Verrouillés à gauche) ---
+    subgraph "Acteurs (Entrée)"
+        direction TB
+        Patient(("Patient")):::actor
+        Medecin(("Médecin")):::actor
+    end
 
-    %% --- Services & Bases de Données (Architecture Microservices) ---
-    
+    %% --- 2. Cœur du Système (Centre) ---
     subgraph "Service Utilisateur"
-        Auth["🔐 Auth & Profils"]:::module
-        DB_User[("🗄️ DB Users")]:::storage
+        Auth["Auth & Profils"]:::module
+        DB_User[("DB Users")]:::storage
     end
 
     subgraph "Service Santé"
-        Saisie["📝 Saisie & Filtrage"]:::module
-        DB_Health[("🗄️ DB Records")]:::storage
-    end
-
-    subgraph "Service IA"
-        IA["🧠 Analytics AI"]:::module
-        DB_IA[("🗄️ DB Intelligence")]:::storage
+        Saisie["Saisie & Filtrage"]:::module
+        DB_Health[("DB Records")]:::storage
     end
 
     subgraph "Service Messages"
         Msg["💬 Messaging"]:::module
-        DB_Msg[("🗄️ DB Chats")]:::storage
+        DB_Msg[("DB Chats")]:::storage
     end
 
+    subgraph "Service IA"
+        IA["Analytics AI"]:::module
+        DB_IA[("DB Intelligence")]:::storage
+    end
+
+    %% --- 3. Fin de chaîne (Verrouillés à droite) ---
     subgraph "Service Alertes"
-        Notif["🔔 Notifications"]:::alert
-        DB_Notif[("🗄️ DB Logs Alertes")]:::storage
+        Notif["Notifications"]:::alert
+        DB_Notif[("DB Logs Alertes")]:::storage
     end
 
-    %% --- Flux de données ---
+    subgraph "Réception (Sortie)"
+        direction TB
+        AppPatient(("Mobile Patient")):::device
+        AppMedecin(("Mobile Médecin")):::device
+    end
 
-    %% Connexion
-    Patient & Medecin -->|"Se connectent"| Auth
+    %% --- Flux de données principaux ---
+    Patient -->|"Se connecte"| Auth
+    Medecin -->|"Se connecte"| Auth
     Auth <--> DB_User
 
-    %% Saisie et Analyse
     Patient -->|"Saisie données"| Saisie
     Saisie <--> DB_Health
-    DB_Health -->|"Alimenter le module Analytics"| IA
+
+    DB_Health -->|"Alimente l'IA"| IA
     IA <--> DB_IA
 
-    %% Alertes (Double notification)
-    IA -->|"Anomalie détectée"| Notif
-    Notif <--> DB_Notif
-    Notif -.->|"Alerte d'urgence"| Patient
-    Notif -.->|"Alerte d'urgence"| Medecin
-
-    %% Communication
     Patient <-->|"Échange sécurisé"| Msg
     Medecin <-->|"Conseil médical"| Msg
     Msg <--> DB_Msg
+
+    %% --- Flux d'Alerte (Vers la droite) ---
+    IA -->|"Anomalie détectée"| Notif
+    Notif <--> DB_Notif
+
+    %% Les alertes finissent leur course à droite
+    Notif -.->|"Alerte Push"| AppPatient
+    Notif -.->|"Alerte Push"| AppMedecin
