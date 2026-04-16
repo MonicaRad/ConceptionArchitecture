@@ -42,6 +42,7 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 
 ---
 
+```mermaid
 graph LR
     %% --- Styles ---
     classDef actor fill:#f3f4f6,stroke:#374151,stroke-width:2px,color:#111827;
@@ -109,6 +110,9 @@ graph LR
     IA -->|"Anomalie détectée"| Notif
     Notif <--> DB_Notif
 
+    %% Les alertes finissent leur course à droite
+    Notif -.->|"Alerte Push"| AppPatient
+    Notif -.->|"Alerte Push"| AppMedecin
     %% Les alertes finissent leur course à droite
     Notif -.->|"Alerte Push"| AppPatient
     Notif -.->|"Alerte Push"| AppMedecin
