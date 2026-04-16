@@ -1,7 +1,3 @@
-# Application de santé
-
-Ce projet est une application pour les médecins. Elle leur permet de suivre les données de leurs patients, que ceux-ci renseignent de manière périodique pour assurer un suivi en temps réel, de discuter entre eux et de recevoir des alertes lorsqu’une valeur semble anormale. Le système utilise aussi l’intelligence artificielle pour analyser les informations et repérer les problèmes plus rapidement.
-
 # 🩺 CareConnect : L'IA au service du suivi médical
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
@@ -28,41 +24,7 @@ Notre application offre un écosystème complet pour la gestion de la santé :
 
 L'application est découpée en micro-services / modules logiques pour assurer sa scalabilité et sa maintenabilité. 
 
-### 📊 Diagramme de flux de l'application
-*(Ce graphique s'affichera automatiquement sur GitHub grâce à Mermaid.js)*
 
-```mermaid
-graph TD
-    %% Définition des acteurs
-    P((👤 Patient))
-    M((👨‍⚕️ Médecin))
-
-    %% Modules principaux
-    subgraph Core System
-        User[🛡️ Module User\nAuth & Profils]
-        HR[📂 Module HealthRecord\nSaisie & Stockage]
-        Ana[🧠 Module Analytics\nIA & Prédiction]
-        Dash[📊 Module Dashboard\nInterfaces & PDF]
-        Msg[💬 Module Messaging\nChat Sécurisé]
-        Notif[🔔 Module Notification\nAlertes Push]
-    end
-
-    %% Interactions Patient
-    P -->|Se connecte| User
-    P -->|Saisit ses données| HR
-    P -->|Consulte ses stats| Dash
-    P <-->|Discute avec le médecin| Msg
-
-    %% Interactions Système
-    HR -->|Analyse continue| Ana
-    Ana -->|Détecte une anomalie| Notif
-    Ana -->|Alimente| Dash
-
-    %% Interactions Médecin
-    M -->|Se connecte| User
-    M -->|Supervise via le TdB| Dash
-    M <-->|Conseille le patient| Msg
-    Notif -.->|Alerte d'urgence| M
 
 Voici la liste de fonctionnalités de notre application : 
 
