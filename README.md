@@ -51,4 +51,45 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 | Dashboard | Tableau de bord médecin, tableau de bord patient, export PDF des rapports médicaux |
 | Messaging | Messagerie sécurisée |
 | Notification | Alertes push en cas d'anomalie |
+
+
+
+graph TD
+    %% Styles personnalisés pour rendre le schéma plus esthétique sur GitHub
+    classDef actor fill:#f3f4f6,stroke:#374151,stroke-width:2px,color:#111827;
+    classDef module fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e;
+    classDef storage fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d;
+    classDef alert fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d,font-weight:bold;
+
+    %% Acteurs (Utilisateurs)
+    Patient((👤 Patient)):::actor
+    Medecin((👨‍⚕️ Médecin)):::actor
+
+    %% Modules Système
+    Auth[🔐 Auth & Profils<br/>(Module User)]:::module
+    Saisie[📝 Saisie & Filtrage<br/>(Module HealthRecord)]:::module
+    DB[(🗄️ Stockage Patient Sécurisé)]:::storage
+    IA[🧠 Analyse Prédictive<br/>(Module Analytics)]:::module
+    Dash[📊 Tableaux de bord & PDF<br/>(Module Dashboard)]:::module
+    Msg[💬 Messagerie Sécurisée<br/>(Module Messaging)]:::module
+    Notif[🚨 Alertes Push<br/>(Module Notification)]:::alert
+
+    %% Actions du Patient
+    Patient -->|1. Se connecte| Auth
+    Patient -->|2. Renseigne ses constantes| Saisie
+    Patient -->|Consulte son suivi| Dash
+    Patient <-->|Discute de son état| Msg
+
+    %% Traitement des données en arrière-plan
+    Saisie -->|Sauvegarde chiffrée| DB
+    DB -->|Fournit l'historique| IA
+    IA -->|Détecte une anomalie| Notif
+    DB -->|Alimente les graphiques| Dash
+    IA -->|Ajoute les prédictions| Dash
+
+    %% Actions du Médecin
+    Medecin -->|1. Se connecte| Auth
+    Notif -.->|Alerte immédiate en cas de danger| Medecin
+    Medecin -->|Supervise l'évolution| Dash
+    Medecin <-->|Conseille et rassure| Msg
  
