@@ -36,43 +36,63 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 | Notification | Alertes push en cas d'anomalie |
 
 
-```mermaid
 graph TD
-    %% --- Styles personnalisés pour le schéma ---
+    %% --- Styles ---
     classDef actor fill:#f3f4f6,stroke:#374151,stroke-width:2px,color:#111827;
     classDef module fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e;
     classDef storage fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d;
     classDef alert fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d,font-weight:bold;
 
-    %% --- Acteurs (Utilisateurs) ---
-    Patient(("Patient")):::actor
-    Medecin(("Médecin")):::actor
+    %% --- Acteurs en haut ---
+    Patient(("👤 Patient")):::actor
+    Medecin(("👨‍⚕️ Médecin")):::actor
 
-    %% --- Modules Système ---
-    Auth["Auth & Profils<br/>(Module User)"]:::module
-    Saisie["Saisie & Filtrage<br/>(Module HealthRecord)"]:::module
-    DB[("Stockage Patient Sécurisé")]:::storage
-    IA["Analyse Prédictive<br/>(Module Analytics)"]:::module
-    Dash["Tableaux de bord & PDF<br/>(Module Dashboard)"]:::module
-    Msg["Messagerie Sécurisée<br/>(Module Messaging)"]:::module
-    Notif["Alertes Push<br/>(Module Notification)"]:::alert
+    %% --- Services & Bases de Données (Architecture Microservices) ---
+    
+    subgraph "Service Utilisateur"
+        Auth["🔐 Auth & Profils"]:::module
+        DB_User[("🗄️ DB Users")]:::storage
+    end
 
-    %% --- Actions du Patient ---
-    Patient -->|"1. Se connecte"| Auth
-    Patient -->|"2. Renseigne ses constantes"| Saisie
-    Patient -->|"Consulte son suivi"| Dash
-    Patient <-->|"Discute de son état"| Msg
+    subgraph "Service Santé"
+        Saisie["📝 Saisie & Filtrage"]:::module
+        DB_Health[("🗄️ DB Records")]:::storage
+    end
 
-    %% --- Traitement des données en arrière-plan ---
-    Saisie -->|"Sauvegarde chiffrée"| DB
-    DB -->|"Fournit l'historique"| IA
-    IA -->|"Détecte une anomalie"| Notif
-    DB -->|"Alimente les graphiques"| Dash
-    IA -->|"Ajoute les prédictions"| Dash
+    subgraph "Service IA"
+        IA["🧠 Analytics AI"]:::module
+        DB_IA[("🗄️ DB Intelligence")]:::storage
+    end
 
-    %% --- Actions du Médecin ---
-    Medecin -->|"1. Se connecte"| Auth
+    subgraph "Service Messages"
+        Msg["💬 Messaging"]:::module
+        DB_Msg[("🗄️ DB Chats")]:::storage
+    end
+
+    subgraph "Service Alertes"
+        Notif["🔔 Notifications"]:::alert
+        DB_Notif[("🗄️ DB Logs Alertes")]:::storage
+    end
+
+    %% --- Flux de données ---
+
+    %% Connexion
+    Patient & Medecin -->|"Se connectent"| Auth
+    Auth <--> DB_User
+
+    %% Saisie et Analyse
+    Patient -->|"Saisie données"| Saisie
+    Saisie <--> DB_Health
+    DB_Health -->|"Alimenter le module Analytics"| IA
+    IA <--> DB_IA
+
+    %% Alertes (Double notification)
+    IA -->|"Anomalie détectée"| Notif
+    Notif <--> DB_Notif
+    Notif -.->|"Alerte d'urgence"| Patient
     Notif -.->|"Alerte d'urgence"| Medecin
-    Medecin -->|"Supervise l'évolution"| Dash
-    Medecin <-->|"Conseille le patient"| Msg
- 
+
+    %% Communication
+    Patient <-->|"Échange sécurisé"| Msg
+    Medecin <-->|"Conseil médical"| Msg
+    Msg <--> DB_Msg
