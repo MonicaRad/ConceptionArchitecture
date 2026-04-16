@@ -70,7 +70,7 @@ graph LR
     end
 
     subgraph "Service Messages"
-        Msg["💬 Messaging"]:::module
+        Msg["Messaging"]:::module
         DB_Msg[("DB Chats")]:::storage
     end
 
