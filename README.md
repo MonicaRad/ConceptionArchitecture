@@ -223,7 +223,7 @@ Le modèle reste flexible et adapté aux changements.
 **Statut :** Accepté
 
 #### Contexte
-Les différents services doivent échanger des événements sans être trop liés entre eux. 
++ L'analyse peut prendre 2 secondes. On ne veut pas que l'application du patient "freeze" pendant ce temps. On envoie la donnée dans Kafka, et le service Analytics la traitera dès qu'il est disponible.
 
 #### Décision
 On utilise Kafka.
