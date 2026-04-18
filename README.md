@@ -117,6 +117,9 @@ graph LR
     Notif -.->|"Alerte Push"| AppMedecin
 ```
 
+## Diagramme de classe 
+
+<img width="1103" height="459" alt="image" src="https://github.com/user-attachments/assets/ef8aa94e-96ab-4789-bc35-74336364a21d" />
 
 
 ## Architecture des modules
