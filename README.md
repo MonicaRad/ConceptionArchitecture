@@ -36,7 +36,6 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 | User | Création / modification de comptes, authentification admin/user |
 | HealthRecord | Saisie manuelle de données de santé, stockage sécurisé des données patient, filtrage par maladie |
 | Analytics | Analyse prédictive des historiques |
-| Dashboard | Tableau de bord médecin, tableau de bord patient, export PDF des rapports médicaux |
 | Messaging | Messagerie sécurisée |
 | Notification | Alertes push en cas d'anomalie |
 
@@ -116,3 +115,117 @@ graph LR
     %% Les alertes finissent leur course à droite
     Notif -.->|"Alerte Push"| AppPatient
     Notif -.->|"Alerte Push"| AppMedecin
+```
+
+
+
+## Architecture des modules
+
+### Architecture n-tiers
+
+<img width="904" height="780" alt="image" src="https://github.com/user-attachments/assets/e7df02fa-6dd1-4c43-8198-7d1f1aa2c2a2" />
+
+#### Architecture Decision Records
+
+#### ADR-001 - Choix de PostgreSQL
+**Statut :** Accepté
+
+#### Contexte
+ 
+Les données sont structurées et doivent rester cohérentes entre elles.
+
+#### Décision
+On utilise PostgreSQL.
+
+#### Conséquences
+Ce choix permet de gérer facilement les relations entre données et d’assurer des transactions fiables.  
+
+
+### Architecture microservices
+
+en rouge : asynchrone
+en bleu : synchrone
+
+<img width="1162" height="560" alt="image" src="https://github.com/user-attachments/assets/7137cc31-056a-40d0-addb-f51deba52d5a" />
+
+#### Architecture Decision Records
+
+#### ADR-001 - Base de données du service utilisateur
+**Statut :** Accepté
+
+#### Contexte
+Le service utilisateur gère des données structurées comme les noms, les mails qui doivent avoir une structure précise
+
+#### Décision
+On utilise PostgreSQL.
+
+#### Conséquences
+Les données sont bien organisées et toujours sous le bon format
+
+---
+
+#### ADR-002 - Base de données du service record
+**Statut :** Accepté
+
+#### Contexte
+Le service record gère des données structurées qui doivent rester fiables et simples à consulter. Surtout au niveau des entrees du patient, on doit pouvoir facilement faire des filtrages 
+
+#### Décision
+On utilise PostgreSQL.
+
+
+---
+
+#### ADR-003 - Base de données du service messagerie
+**Statut :** Accepté
+
+#### Contexte
+Le service messagerie traite des messages qui peuvent avoir des formats différents et des longueurs differentes et meme des pieces jointes
+
+#### Décision
+On utilise MongoDB.
+
+#### Conséquences
+Le schéma est plus souple et plus simple à faire évoluer.
+
+---
+
+#### ADR-004 - Base de données du service analytics
+**Statut :** Accepté
+
+#### Contexte
+Le service analytics manipule des données d’analyse qui peuvent changer de structure selon les besoins. 
+
+#### Décision
+On utilise MongoDB.
+
+#### Conséquences
+On peut stocker facilement des données variées et des résultats intermédiaires.
+
+---
+#### ADR-005 - Base de données du service alerte
+**Statut :** Accepté
+
+#### Contexte
+Le service alerte gère des notifications, des messages differents et des paramètres qui peuvent évoluer.
+
+#### Décision
+On utilise MongoDB.
+
+#### Conséquences
+Le modèle reste flexible et adapté aux changements.
+
+---
+#### ADR-006 - Choix du bus d’événements
+**Statut :** Accepté
+
+#### Contexte
+Les différents services doivent échanger des événements sans être trop liés entre eux. 
+
+#### Décision
+On utilise Kafka.
+
+#### Conséquences
+Les services communiquent de façon asynchrone.  
+
+
