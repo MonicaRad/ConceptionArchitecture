@@ -34,7 +34,7 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 | Module | Fonctionnalités incluses |
 |---|---|
 | User | Création / modification de comptes, authentification admin/user |
-| HealthRecord | Saisie manuelle de données de santé, stockage sécurisé des données patient, filtrage par maladie |
+| Record | Saisie manuelle de données de santé, stockage sécurisé des données patient, filtrage par maladie |
 | Analytics | Analyse prédictive des historiques |
 | Messaging | Messagerie sécurisée |
 | Notification | Alertes push en cas d'anomalie |
@@ -223,7 +223,7 @@ Le modèle reste flexible et adapté aux changements.
 **Statut :** Accepté
 
 #### Contexte
-+ L'analyse peut prendre 2 secondes. On ne veut pas que l'application du patient "freeze" pendant ce temps. On envoie la donnée dans Kafka, et le service Analytics la traitera dès qu'il est disponible.
+L'analyse peut prendre 2 secondes. On ne veut pas que l'application du patient "freeze" pendant ce temps. On envoie la donnée dans Kafka, et le service Analytics la traitera dès qu'il est disponible.
 
 #### Décision
 On utilise Kafka.
@@ -232,3 +232,11 @@ On utilise Kafka.
 Les services communiquent de façon asynchrone.  
 
 
+#### Liste des evenements
+
+- entre Service Messagerie et Service Utilisateur : MessageSent / MessageReceived
+- entre Service Record et Service Utilisateur : MedicalDataSubmitted / MedicalRecordUpdated
+- entre Service Record et Service Analytics: MedicalDataShared
+- entre Service Analystics et Service Alerte : RiskDetected
+- entre Service Alerte et service Utilisateur : AlertSent
+  
