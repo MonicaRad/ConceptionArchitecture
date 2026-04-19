@@ -27,7 +27,7 @@ Notre application simplifie le suivi médical grâce aux outils suivants :
 
 ## Architecture des modules
 
-L'application est découpée en micro-services / modules logiques pour assurer sa scalabilité et sa maintenabilité. 
+L'application est découpée en domaine métier pour assurer sa scalabilité et sa maintenabilité. 
 
 Les fonctionnalités sont ensuite regroupées par domaine : 
 
@@ -135,13 +135,13 @@ graph LR
 
 #### Contexte
  
-Les données sont structurées et doivent rester cohérentes entre elles.
+Les données sont structurées et doivent rester cohérentes entre elles. Pour les messages on a le JSONB pour les stocker en document.
 
 #### Décision
 On utilise PostgreSQL.
 
 #### Conséquences
-Ce choix permet de gérer facilement les relations entre données et d’assurer des transactions fiables.  
+Ce choix permet de gérer facilement les relations entre données et faire des requetes simples/complexes.
 
 
 ### Architecture microservices
