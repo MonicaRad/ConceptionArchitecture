@@ -231,15 +231,6 @@ On utilise Kafka.
 #### Conséquences
 Les services communiquent de façon asynchrone.  
 
-
-#### Liste des evenements
-
-- entre Service Messagerie et Service Utilisateur : MessageSent / MessageReceived
-- entre Service Record et Service Utilisateur : MedicalDataSubmitted / MedicalRecordUpdated
-- entre Service Record et Service Analytics: MedicalDataShared
-- entre Service Analystics et Service Alerte : RiskDetected
-- entre Service Alerte et service Utilisateur : AlertSent
-
 ### Communication Event-Driven (Kafka)
 
 <img width="1163" height="408" alt="Screenshot from 2026-04-20 09-53-23" src="https://github.com/user-attachments/assets/e579ab08-ad7a-4d94-bd4a-55ceff5c483f" />
