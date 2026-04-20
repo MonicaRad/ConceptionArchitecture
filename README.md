@@ -40,7 +40,7 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 | Notification | Alertes push en cas d'anomalie |
 
 ---
-
+```mermaid
 graph LR
     %% --- Styles ---
     classDef actor fill:#ffc213,stroke:#374151,stroke-width:2px,color:#111827;
