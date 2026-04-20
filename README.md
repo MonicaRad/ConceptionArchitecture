@@ -149,7 +149,8 @@ Ce choix permet de gérer facilement les relations entre données et faire des r
 en rouge : asynchrone
 en bleu : synchrone
 
-<img width="683" height="436" alt="image" src="https://github.com/user-attachments/assets/5c6bea99-90fe-4800-8b2c-cadfe64ae733" />
+<img width="1035" height="653" alt="image" src="https://github.com/user-attachments/assets/4ca8b2dc-4282-471b-876a-14fe8f633424" />
+
 
 #### Architecture Decision Records
 
