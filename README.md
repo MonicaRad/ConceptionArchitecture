@@ -41,20 +41,21 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 
 ---
 
-```mermaid
 graph LR
     %% --- Styles ---
-    classDef actor fill:#f3f4f6,stroke:#374151,stroke-width:2px,color:#111827;
+    classDef actor fill:#ffc213,stroke:#374151,stroke-width:2px,color:#111827;
     classDef module fill:#e0f2fe,stroke:#0284c7,stroke-width:2px,color:#0c4a6e;
     classDef storage fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d;
     classDef alert fill:#fee2e2,stroke:#dc2626,stroke-width:2px,color:#7f1d1d,font-weight:bold;
-    classDef device fill:#fef08a,stroke:#ca8a04,stroke-width:2px,color:#713f12;
 
     %% --- 1. Origine (Verrouillés à gauche) ---
     subgraph "Acteurs (Entrée)"
         direction TB
         Patient(("Patient")):::actor
         Medecin(("Médecin")):::actor
+
+        %% ASTUCE : Lien invisible pour forcer le Patient en premier !
+        Patient ~~~ Medecin
     end
 
     %% --- 2. Cœur du Système (Centre) ---
@@ -73,7 +74,7 @@ graph LR
         DB_Msg[("DB Chats")]:::storage
     end
 
-    subgraph "Service IA"
+    subgraph "Service Analytics"
         IA["Analytics AI"]:::module
         DB_IA[("DB Intelligence")]:::storage
     end
@@ -84,12 +85,6 @@ graph LR
         DB_Notif[("DB Logs Alertes")]:::storage
     end
 
-    subgraph "Réception (Sortie)"
-        direction TB
-        AppPatient(("Mobile Patient")):::device
-        AppMedecin(("Mobile Médecin")):::device
-    end
-
     %% --- Flux de données principaux ---
     Patient -->|"Se connecte"| Auth
     Medecin -->|"Se connecte"| Auth
@@ -98,23 +93,20 @@ graph LR
     Patient -->|"Saisie données"| Saisie
     Saisie <--> DB_Health
 
-    DB_Health -->|"Alimente l'IA"| IA
+    DB_Health -->|"Alimente service Analytics"| IA
     IA <--> DB_IA
 
     Patient <-->|"Échange sécurisé"| Msg
     Medecin <-->|"Conseil médical"| Msg
     Msg <--> DB_Msg
 
-    %% --- Flux d'Alerte (Vers la droite) ---
+    %% --- Flux d'Alerte (Retour vers les acteurs) ---
     IA -->|"Anomalie détectée"| Notif
     Notif <--> DB_Notif
 
-    %% Les alertes finissent leur course à droite
-    Notif -.->|"Alerte Push"| AppPatient
-    Notif -.->|"Alerte Push"| AppMedecin
-    %% Les alertes finissent leur course à droite
-    Notif -.->|"Alerte Push"| AppPatient
-    Notif -.->|"Alerte Push"| AppMedecin
+    %% Les alertes retournent au début
+    Notif -.->|"Alerte Push"| Patient
+    Notif -.->|"Alerte Push"| Medecin
 ```
 
 ## Diagramme de classe 
