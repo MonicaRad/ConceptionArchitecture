@@ -40,6 +40,7 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 | Notification | Alertes push en cas d'anomalie |
 
 ---
+
 ```mermaid
 graph LR
     %% --- Styles ---
@@ -105,8 +106,8 @@ graph LR
     Notif <--> DB_Notif
 
     %% Les alertes retournent au début
-    Notif -.->|"Alerte Push"| Patient
-    Notif -.->|"Alerte Push"| Medecin
+    Patient <--|"Alerte Push"| Notif
+    Medecin <--|"Alerte Push"| Notif
 
 
 ## Diagramme de classe 
