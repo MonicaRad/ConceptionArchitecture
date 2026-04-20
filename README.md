@@ -198,13 +198,13 @@ Le schéma est plus souple et plus simple à faire évoluer.
 **Statut :** Accepté
 
 #### Contexte
-Le service analytics manipule des données d’analyse qui peuvent changer de structure selon les besoins. 
+Le service analytics manipule des données d’analyse avec des donnees de predictions bien precises
 
 #### Décision
-On utilise MongoDB.
+On utilise PostGre.
 
 #### Conséquences
-On peut stocker facilement des données variées et des résultats intermédiaires.
+On peut stocker facilement des données et faire des requetes simples ou complexes
 
 ---
 #### ADR-005 - Base de données du service alerte
