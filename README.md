@@ -114,7 +114,7 @@ graph LR
     %% Syntaxe valide qui ne cassera plus le visuel grâce à l'astuce ci-dessus
     Notif -.->|"Alerte Push"| Patient
     Notif -.->|"Alerte Push"| Medecin
-
+```
 
 ## Diagramme de classe 
 
