@@ -107,7 +107,7 @@ graph LR
     %% Les alertes retournent au début
     Notif -.->|"Alerte Push"| Patient
     Notif -.->|"Alerte Push"| Medecin
-```
+
 
 ## Diagramme de classe 
 
