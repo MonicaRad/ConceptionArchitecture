@@ -40,7 +40,6 @@ Les fonctionnalités sont ensuite regroupées par domaine :
 | Notification | Alertes push en cas d'anomalie |
 
 ---
-
 ```mermaid
 graph LR
     %% --- Styles ---
@@ -55,7 +54,7 @@ graph LR
         Patient(("Patient")):::actor
         Medecin(("Médecin")):::actor
 
-        %% ASTUCE : Lien invisible pour forcer le Patient en premier !
+        %% Maintient le Patient en premier
         Patient ~~~ Medecin
     end
 
@@ -86,6 +85,13 @@ graph LR
         DB_Notif[("DB Logs Alertes")]:::storage
     end
 
+    %% --- ASTUCE ANTI-RETOURNEMENT ---
+    %% Ces liens invisibles (~~~) forcent la lecture stricte de gauche à droite !
+    Patient ~~~ Auth
+    Auth ~~~ Saisie
+    Saisie ~~~ IA
+    IA ~~~ Notif
+
     %% --- Flux de données principaux ---
     Patient -->|"Se connecte"| Auth
     Medecin -->|"Se connecte"| Auth
@@ -105,9 +111,9 @@ graph LR
     IA -->|"Anomalie détectée"| Notif
     Notif <--> DB_Notif
 
-    %% Les alertes retournent au début
-    Patient <--|"Alerte Push"| Notif
-    Medecin <--|"Alerte Push"| Notif
+    %% Syntaxe valide qui ne cassera plus le visuel grâce à l'astuce ci-dessus
+    Notif -.->|"Alerte Push"| Patient
+    Notif -.->|"Alerte Push"| Medecin
 
 
 ## Diagramme de classe 
