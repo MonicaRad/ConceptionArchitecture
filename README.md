@@ -25,8 +25,6 @@ Notre application simplifie le suivi médical grâce aux outils suivants :
 
 ---
 
-## Architecture des modules
-
 L'application est découpée en domaine métier pour assurer sa scalabilité et sa maintenabilité. 
 
 Les fonctionnalités sont ensuite regroupées par domaine : 
