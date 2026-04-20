@@ -239,4 +239,14 @@ Les services communiquent de façon asynchrone.
 - entre Service Record et Service Analytics: MedicalDataShared
 - entre Service Analystics et Service Alerte : RiskDetected
 - entre Service Alerte et service Utilisateur : AlertSent
+
+### Communication Event-Driven (Kafka)
+
+<img width="1163" height="408" alt="Screenshot from 2026-04-20 09-53-23" src="https://github.com/user-attachments/assets/e579ab08-ad7a-4d94-bd4a-55ceff5c483f" />
+
+La communication entre les services est principalement asynchrone via Apache Kafka. Ce choix permet de découpler les services et de garantir que le système reste réactif même sous forte charge.
+* Le Service Record produit un événement sur le topic health-records.
+* Le Service IA consomme ce topic, charge un modèle IA et produit une prediction.
+* Le Service Alerte consomme la prédiction et, si nécessaire, produit un événement alerts.
+* Le Service Messagerie consomme l'alerte et déclenche l'envoi vers l'utilisateur final.
   
